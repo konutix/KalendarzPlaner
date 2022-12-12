@@ -27,4 +27,5 @@ public class SearchResult : MonoBehaviour
         resultName.text = Event.eventName;
         resultDate.text = Event.startDate.ToString("dd.MM.yy      hh:mm") + "\n" + Event.endDate.ToString("dd.MM.yy      HH:mm");
     }
+
 }
