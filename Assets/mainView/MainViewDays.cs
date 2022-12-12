@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MainViewDays : MonoBehaviour
 {
+    public GameObject MonthButton;
+
     public GameObject dayPrefab;
     public float xBegin = 60.0f;
     public float yBegin = 60.0f;
@@ -19,6 +21,8 @@ public class MainViewDays : MonoBehaviour
         System.DateTime dateCurrent = System.DateTime.UtcNow.ToLocalTime();
 
         System.DateTime dateFirst = new System.DateTime(dateCurrent.Year,dateCurrent.Month,1,1,1,1,1,dateCurrent.Kind);
+
+        MonthButton.GetComponentInChildren<Text>().text = dateFirst.ToString("MMMM yyyy");
 
         int firstDay = 0;
 
@@ -41,20 +45,16 @@ public class MainViewDays : MonoBehaviour
         {
             for (int d = 0; d < 7; d++)
             {
-                day = Instantiate(dayPrefab, transform);
+                
 
                 if ((dayIterator > 0 && dayIterator < System.DateTime.DaysInMonth(dateCurrent.Year, dateCurrent.Month)) || w * 7 + d + 1 == firstDay)
                 {
+                    day = Instantiate(dayPrefab, transform);
                     dayIterator++;
                     day.GetComponentInChildren<Text>().text = dayIterator.ToString();
-                }
-                else
-                {
-                    day.GetComponentInChildren<Text>().text = "";
-                }
-
-                day.gameObject.GetComponent<RectTransform>().anchoredPosition =
+                    day.gameObject.GetComponent<RectTransform>().anchoredPosition =
                     new Vector3(xBegin + d * daySize + d * xPadding, -yBegin - w * daySize - w * yPadding);
+                }
             }
         }
     }
