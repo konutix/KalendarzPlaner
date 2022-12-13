@@ -23,7 +23,7 @@ public class SearchResult : MonoBehaviour
     public void Setup()
     {
         buttonImage = GetComponent<Image>();
-        buttonImage.color = Event.eventColor;
+        buttonImage.color = OurColors.GetColor(Event.eventColor);
         resultName.text = Event.eventName;
         resultDate.text = Event.startDate.ToString("dd.MM.yy      hh:mm") + "\n" + Event.endDate.ToString("dd.MM.yy      HH:mm");
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,16 +19,21 @@ public class SearchResults : MonoBehaviour
 
     List<Event> events;
     List<Event> searchedEvents;
+    List<Event> filteredEvents;
     List<SearchResult> results;
     [SerializeField] GameObject resultPrefab;
-    SortEnum sortEnum;
     
+    SortEnum sortEnum;
+    Dictionary<OurColors,bool> checkedColors;
+    bool showOlderEvents;
+
     // Start is called before the first frame update
     void Start()
     {
         sortEnum = SortEnum.StartDateInc;
         events = new List<Event>();
         searchedEvents = new List<Event>();
+        filteredEvents = new List<Event>();
         results = new List<SearchResult>();
         for(int i = 0; i < 10; i++)
         {
@@ -38,10 +44,34 @@ public class SearchResults : MonoBehaviour
             e.endDate = System.DateTime.Now;
             e.endDate = e.endDate.AddDays(5 - i);
             e.endDate = e.endDate.AddHours(i);
-            e.eventColor = Color.green;
+            e.eventColor = OurColors.green;
             events.Add(e);
         }
+        checkedColors = new Dictionary<OurColors,bool>();
+        checkedColors.Add(OurColors.blue, true);
+        checkedColors.Add(OurColors.red, true);
+        checkedColors.Add(OurColors.green, true);
+        checkedColors.Add(OurColors.lightblue, true);
+        checkedColors.Add(OurColors.orange, true);
+        checkedColors.Add(OurColors.yellow, true);
+        checkedColors.Add(OurColors.purple, true);
+        checkedColors.Add(OurColors.pink, true);
+        checkedColors.Add(OurColors.white, true);
+        checkedColors.Add(OurColors.black, true);
+        showOlderEvents = true;
         Search("");
+    }
+
+    public void ChangeColorFilter(OurColors color)
+    {
+        checkedColors[color] = !checkedColors[color];
+        Filter();
+    }
+
+    public void ChangeShowOlderEvents()
+    {
+        showOlderEvents = !showOlderEvents;
+        Filter();
     }
 
     public void Search(string search)
@@ -49,14 +79,31 @@ public class SearchResults : MonoBehaviour
         searchedEvents.Clear();
         foreach(Event e in events)
         {
-            if((search.Length > 0 && e.eventName.Contains(search)) || search.Length == 0)
+            if (((search.Length > 0 && e.eventName.Contains(search)) || search.Length == 0))
             {
                 searchedEvents.Add(e);
+            }
+        }
+        Filter();
+    }
+
+    public void Filter()
+    {
+        filteredEvents.Clear();
+        foreach (Event e in searchedEvents)
+        {
+            if (checkedColors.ContainsKey(e.eventColor) && checkedColors[e.eventColor])
+            {
+                if(showOlderEvents || (!showOlderEvents && e.endDate > DateTime.Now))
+                {
+                    filteredEvents.Add(e);
+                }
             }
         }
         SortEvents();
         SpawnEvents();
     }
+
 
     void SortEvents()
     {
@@ -86,7 +133,7 @@ public class SearchResults : MonoBehaviour
                 Comparer = new IncStartDateComparer();
                 break;
         }
-        searchedEvents.Sort(Comparer);
+        filteredEvents.Sort(Comparer);
     }
 
     void SpawnEvents()
@@ -96,7 +143,7 @@ public class SearchResults : MonoBehaviour
             Destroy(result.gameObject);
         }
         results.Clear();
-        foreach (Event e in searchedEvents)
+        foreach (Event e in filteredEvents)
         {
             GameObject resultGO = Instantiate(resultPrefab);
             results.Add(resultGO.GetComponent<SearchResult>());

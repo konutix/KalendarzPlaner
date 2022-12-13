@@ -8,5 +8,6 @@ public class Event
     public string eventName;
     public DateTime startDate;
     public DateTime endDate;
-    public Color eventColor;
+    public OurColors eventColor;
+
 }
