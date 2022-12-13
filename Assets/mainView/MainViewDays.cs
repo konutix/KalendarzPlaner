@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class MainViewDays : MonoBehaviour
 {
-    public GameObject MonthButton;
-
     public GameObject dayPrefab;
     public float xBegin = 60.0f;
     public float yBegin = 60.0f;
@@ -14,19 +12,21 @@ public class MainViewDays : MonoBehaviour
     public float xPadding = 25.0f;
     public float yPadding = 25.0f;
 
+    public System.DateTime dateCurrent;
+
     // Start is called before the first frame update
     void Start()
     {
 
-        System.DateTime dateCurrent = System.DateTime.UtcNow.ToLocalTime();
+    }
 
-        System.DateTime dateFirst = new System.DateTime(dateCurrent.Year,dateCurrent.Month,1,1,1,1,1,dateCurrent.Kind);
-
-        MonthButton.GetComponentInChildren<Text>().text = dateFirst.ToString("MMMM yyyy");
+    public void SetupMonth()
+    {
+        System.DateTime dateFirst = new System.DateTime(dateCurrent.Year, dateCurrent.Month, 1, 1, 1, 1, 1, dateCurrent.Kind);
 
         int firstDay = 0;
 
-        switch(dateFirst.DayOfWeek)
+        switch (dateFirst.DayOfWeek)
         {
             case System.DayOfWeek.Monday: firstDay = 1; break;
             case System.DayOfWeek.Tuesday: firstDay = 2; break;
@@ -45,7 +45,7 @@ public class MainViewDays : MonoBehaviour
         {
             for (int d = 0; d < 7; d++)
             {
-                
+
 
                 if ((dayIterator > 0 && dayIterator < System.DateTime.DaysInMonth(dateCurrent.Year, dateCurrent.Month)) || w * 7 + d + 1 == firstDay)
                 {
@@ -53,7 +53,7 @@ public class MainViewDays : MonoBehaviour
                     dayIterator++;
                     day.GetComponentInChildren<Text>().text = dayIterator.ToString();
                     day.gameObject.GetComponent<RectTransform>().anchoredPosition =
-                    new Vector3(xBegin + d * daySize + d * xPadding, -yBegin - w * daySize - w * yPadding);
+                    new Vector2(xBegin + d * daySize + d * xPadding, -yBegin - w * daySize - w * yPadding);
                 }
             }
         }
