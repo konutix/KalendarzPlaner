@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.SceneManagement;
 public class DayEvent : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IDayMovable
 {
 
@@ -26,11 +26,19 @@ public class DayEvent : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
 
     public void OnPointerUp(PointerEventData eventData)
     {
+
+        if (!isMoved)
+        {
+            SceneManager.LoadScene("eventedit");
+        }
+
         isHeld = false;
         isMoved = false;
         timeConsumed = 0;
         EventManager.TriggerEvent("EndDragEvent", null);
         EventManager.TriggerEvent("DragEvent", 0.0f);
+
+
     }
 
     // Start is called before the first frame update
