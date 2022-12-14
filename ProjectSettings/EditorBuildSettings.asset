@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DayView2.unity
     guid: fd57eed085e4610428fecf6392a950dc
+  - enabled: 1
+    path: Assets/Scenes/widget.unity
+    guid: 2bfe91d114b4b624e8818f4088794d25
   m_configObjects: {}
