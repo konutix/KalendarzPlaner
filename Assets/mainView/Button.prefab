@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8972344786191337522}
   - component: {fileID: 627059128619348613}
   - component: {fileID: 6574184713744020391}
+  - component: {fileID: 4651650703454681878}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -120,7 +121,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 627059128619348613}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4651650703454681878}
+        m_TargetAssemblyTypeName: MVMonthDayButton, Assembly-CSharp
+        m_MethodName: ShowDay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4651650703454681878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6554074209740556254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac2b79df63439a4e8ae0ec2bcbfc529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8084306448320543992
 GameObject:
   m_ObjectHideFlags: 0
