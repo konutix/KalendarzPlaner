@@ -19,6 +19,20 @@ public class RepeatPicker : MonoBehaviour
     {
         dropdown.value = (int)repeating.type;
         amountContent.Setup(repeating.amount);
+
+        OnDropdownChange();
+    }
+
+    public void OnDropdownChange()
+    {
+        if (dropdown.value == 0)
+        {
+            amountScroll.gameObject.SetActive(false);
+        }
+        else
+        {
+            amountScroll.gameObject.SetActive(true);
+        }
     }
 
     public EventEditorScript.Repeating GetValues()
