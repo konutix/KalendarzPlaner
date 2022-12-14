@@ -18,7 +18,6 @@ public class GrayDay : MonoBehaviour
             if(rnd.Next() % 100 < 25)
             {
                 month.transform.GetChild(i).gameObject.GetComponent<UnityEngine.UI.Button>().interactable = false;
-                //month.transform.GetChild(i).gameObject.SetActive(false);
             }
         }
     }
