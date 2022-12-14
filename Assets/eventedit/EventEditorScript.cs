@@ -7,7 +7,8 @@ public class EventEditorScript : MonoBehaviour
 {   
     public InputField titleInputField;
 
-    public TimePicker timePicker;
+    // public TimePicker timePicker;
+    public ScrollTimePicker scrollTimePicker;
     public Text timeStartText;
     public Text timeEndText;
 
@@ -84,6 +85,21 @@ public class EventEditorScript : MonoBehaviour
         timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
     }
 
+    public void AllDayTicked(bool value)
+    {
+        currentEvent.isAllDay = !currentEvent.isAllDay;
+        if (currentEvent.isAllDay)
+        {
+            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy  ");
+            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy  ");
+        }
+        else
+        {
+            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
+            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
+        }
+    }
+
     void SetRepeatingTextField()
     {
         if (currentEvent.repeating.type == RepeatingType.None)
@@ -136,6 +152,8 @@ public class EventEditorScript : MonoBehaviour
             var reminderScript = reminderGO.GetComponentInChildren<ReminderRemoveButton>();
             reminderScript.timespan = reminder;
         }
+
+        Canvas.ForceUpdateCanvases();
     }
     int temporaryMinuteSelectLol = 20;
     public void HandleAddReminderButton()
@@ -200,30 +218,37 @@ public class EventEditorScript : MonoBehaviour
     public void HandleStartTimeButton()
     {
         isEditingStartTime = true;
-        timePicker.gameObject.SetActive(true);
-        timePicker.SetupFields("Ustaw datę rozpoczęcia", currentEvent.startTime);
+        // timePicker.gameObject.SetActive(true);
+        // timePicker.SetupFields("Ustaw datę rozpoczęcia", currentEvent.startTime);
+        scrollTimePicker.gameObject.SetActive(true);
+        scrollTimePicker.SetupContent(currentEvent.startTime);
     }
 
     public void HandleEndTimeButton()
     {
         isEditingStartTime = false;
-        timePicker.gameObject.SetActive(true);
-        timePicker.SetupFields("Ustaw datę zakończenia", currentEvent.endTime);
+        // timePicker.gameObject.SetActive(true);
+        // timePicker.SetupFields("Ustaw datę zakończenia", currentEvent.endTime);
+        scrollTimePicker.gameObject.SetActive(true);
+        scrollTimePicker.SetupContent(currentEvent.endTime);
     }
 
     public void HandleTimePickerConfirmButton()
     {
         if (isEditingStartTime)
         {
-            currentEvent.startTime = timePicker.GetValues();
+            // currentEvent.startTime = timePicker.GetValues();
+            currentEvent.startTime = scrollTimePicker.GetValues();
         }
         else
         {
-            currentEvent.endTime = timePicker.GetValues();
+            // currentEvent.endTime = timePicker.GetValues();
+            currentEvent.endTime = scrollTimePicker.GetValues();
         }
 
         SetTimeTextFields();
-        timePicker.gameObject.SetActive(false);
+        // timePicker.gameObject.SetActive(false);
+        scrollTimePicker.gameObject.SetActive(false);
     }
 
     public void HandleRepeatButton()
@@ -256,9 +281,8 @@ public class EventEditorScript : MonoBehaviour
         peoplePicker.SetActive(!peoplePicker.activeSelf);
     }
 
-    public GameObject betterTimePicker;
     public void debuggg()
     {
-        betterTimePicker.SetActive(!betterTimePicker.activeSelf);
+        
     }
 }
