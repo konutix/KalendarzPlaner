@@ -47,6 +47,27 @@ public class SearchResults : MonoBehaviour
             e.eventColor = OurColors.green;
             events.Add(e);
         }
+
+        events[0].eventName = "Urodziny Dziadka Zbyszka";
+        events[0].eventColor = OurColors.red;
+        events[1].eventName = "Urodziny Dziadka Marka";
+        events[1].eventColor = OurColors.green;
+        events[2].eventName = "Piwo";
+        events[2].eventColor = OurColors.blue;
+        events[3].eventName = "Nocne jedzenie";
+        events[3].eventColor = OurColors.lightblue;
+        events[4].eventName = "Ananas";
+        events[4].eventColor = OurColors.yellow;
+        events[5].eventName = "Wydarzenie specjalne";
+        events[5].eventColor = OurColors.orange;
+        events[6].eventName = "Ua Ua";
+        events[6].eventColor = OurColors.purple;
+        events[7].eventName = "Coœ tu jest napisane";
+        events[7].eventColor = OurColors.white;
+        events[8].eventName = "jfjdjopasfj";
+        events[8].eventColor = OurColors.pink;
+        events[9].eventName = "Wydarzenie10";
+        events[9].eventColor = OurColors.black;
         checkedColors = new Dictionary<OurColors,bool>();
         checkedColors.Add(OurColors.blue, true);
         checkedColors.Add(OurColors.red, true);
