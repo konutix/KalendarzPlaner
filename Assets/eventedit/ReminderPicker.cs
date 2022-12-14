@@ -8,7 +8,7 @@ public class ReminderPicker : MonoBehaviour
     public TimeInfiniteScroll amountScroll;
     InfiniteScrollContent amountContent;
 
-    public Dropdown dropdown;
+    // public Dropdown dropdown;
 
     void Awake()
     {
@@ -17,13 +17,18 @@ public class ReminderPicker : MonoBehaviour
 
     public void SetupFields()
     {
-        // dropdown.value = (int)repeating.type;
-        // amountContent.Setup(repeating.amount);
+        amountContent.values = new string[99];
+        for (int i = 0; i < 99; i++)
+        {
+            if (i < 9) amountContent.values[i] = "0" + (i+1).ToString();
+            else amountContent.values[i] = (i+1).ToString();
+        }
+
+        amountContent.Setup(10);
     }
 
     public System.TimeSpan GetValues()
     {
-        System.TimeSpan ts;
-        return ts;
+        return System.TimeSpan.FromMinutes(amountContent.selectedValue);
     }
 }

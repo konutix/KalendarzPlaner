@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EventEditorScript : MonoBehaviour
 {   
@@ -15,6 +16,7 @@ public class EventEditorScript : MonoBehaviour
     public RepeatPicker repeatPicker;
     public Text repeatingText;
 
+    public ReminderPicker reminderPicker;
     public Transform remindersContainer;
     public GameObject reminderPrefab;
 
@@ -40,7 +42,7 @@ public class EventEditorScript : MonoBehaviour
     class CallendarEvent 
     {
         public string name;
-        public Color color = Color.blue;
+        public Color color = new Color(0.0f, 0.32f, 1.0f, 1.0f); // #0052FF blue
 
         public System.DateTime startTime;
         public System.DateTime endTime;
@@ -155,11 +157,23 @@ public class EventEditorScript : MonoBehaviour
 
         Canvas.ForceUpdateCanvases();
     }
-    int temporaryMinuteSelectLol = 20;
+    
     public void HandleAddReminderButton()
     {
-        currentEvent.reminders.Add(System.TimeSpan.FromMinutes(temporaryMinuteSelectLol));
-        temporaryMinuteSelectLol += 10;
+
+        reminderPicker.gameObject.SetActive(true);
+        reminderPicker.SetupFields();
+
+        // currentEvent.reminders.Add(System.TimeSpan.FromMinutes(temporaryMinuteSelectLol));
+        // temporaryMinuteSelectLol += 10;
+        // SetRemindersTextFields();
+    }
+
+    public void HandleConfirmAddReminderButton()
+    {
+        var timespan = reminderPicker.GetValues();
+        currentEvent.reminders.Add(timespan);
+        reminderPicker.gameObject.SetActive(false);
         SetRemindersTextFields();
     }
 
@@ -183,10 +197,14 @@ public class EventEditorScript : MonoBehaviour
         // if changes -> confirm popup
 
         // Exit
+        SceneManager.LoadScene("MainView"); //FIXME: not always back to main view?
     }
 
     public void HandleConfirmButton()
     {
+        SceneManager.LoadScene("MainView");
+
+        return;
         // Validate event
 
         if (titleInputField.text == "")
@@ -204,9 +222,7 @@ public class EventEditorScript : MonoBehaviour
         // Output an event
 
         currentEvent.name = titleInputField.text;
-
         currentEvent.notes = notesInputField.text;
-
 
         print(currentEvent.name);
         print(currentEvent.startTime);
