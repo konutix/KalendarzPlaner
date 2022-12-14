@@ -101,7 +101,7 @@ public class InfiniteScrollContent : MonoBehaviour
     public void ResetPosition()
     {
         float posDiff = initialPos - rt.anchoredPosition.y;
-        if (Mathf.Abs(posDiff) < itemHeight) return;
+        // if (Mathf.Abs(posDiff) < itemHeight) return;
 
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, rt.anchoredPosition.y + posDiff);
         basePos = rt.anchoredPosition.y;
