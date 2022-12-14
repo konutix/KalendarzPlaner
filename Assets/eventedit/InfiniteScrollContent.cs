@@ -1,152 +1,115 @@
-// https://github.com/renellc/Unity3D-InfinitelyScrollingScrollRect
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InfiniteScrollContent : MonoBehaviour
 {
-    #region Public Properties
+    public GameObject scrollItemPrefab;
+    public string[] values;
+    
+    [HideInInspector] public ScrollRect scrollRect;
 
-    /// <summary>
-    /// How far apart each item is in the scroll view.
-    /// </summary>
-    public float ItemSpacing { get { return itemSpacing; } }
+    float itemHeight = 100.0f;
 
-    /// <summary>
-    /// How much the items are indented from left and right of the scroll view.
-    /// </summary>
-    public float HorizontalMargin { get { return horizontalMargin; } }
+    float initialPos;
+    float basePos;
+    RectTransform rt;
 
-    /// <summary>
-    /// How much the items are indented from top and bottom of the scroll view.
-    /// </summary>
-    public float VerticalMargin { get { return verticalMargin; } }
+    public int selectedValue = 0;
 
-    /// <summary>
-    /// Is the scroll view oriented horizontally?
-    /// </summary>
-    public bool Horizontal { get { return horizontal; } }
 
-    /// <summary>
-    /// Is the scroll view oriented vertically?
-    /// </summary>
-    public bool Vertical { get { return vertical; } }
-
-    /// <summary>
-    /// The width of the scroll content.
-    /// </summary>
-    public float Width { get { return width; } }
-
-    /// <summary>
-    /// The height of the scroll content.
-    /// </summary>
-    public float Height { get { return height; } }
-
-    /// <summary>
-    /// The width for each child of the scroll view.
-    /// </summary>
-    public float ChildWidth { get { return childWidth; } }
-
-    /// <summary>
-    /// The height for each child of the scroll view.
-    /// </summary>
-    public float ChildHeight { get { return childHeight; } }
-
-    #endregion
-
-    #region Private Members
-
-    /// <summary>
-    /// The RectTransform component of the scroll content.
-    /// </summary>
-    private RectTransform rectTransform;
-
-    /// <summary>
-    /// The RectTransform components of all the children of this GameObject.
-    /// </summary>
-    private RectTransform[] rtChildren;
-
-    /// <summary>
-    /// The width and height of the parent.
-    /// </summary>
-    private float width, height;
-
-    /// <summary>
-    /// The width and height of the children GameObjects.
-    /// </summary>
-    private float childWidth, childHeight;
-
-    /// <summary>
-    /// How far apart each item is in the scroll view.
-    /// </summary>
-    [SerializeField]
-    private float itemSpacing;
-
-    /// <summary>
-    /// How much the items are indented from the top/bottom and left/right of the scroll view.
-    /// </summary>
-    [SerializeField]
-    private float horizontalMargin, verticalMargin;
-
-    /// <summary>
-    /// Is the scroll view oriented horizontall or vertically?
-    /// </summary>
-    [SerializeField]
-    private bool horizontal, vertical;
-
-    #endregion
-
-    private void Start()
+    public void Setup(int initialValue)
     {
-        rectTransform = GetComponent<RectTransform>();
-        rtChildren = new RectTransform[rectTransform.childCount];
+        rt = GetComponent<RectTransform>();
+        int magic = (values.Length%2==0)?0:1;
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, (0.5f + values.Length/2 + magic) * itemHeight);
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, itemHeight * (values.Length+2));
+        basePos = rt.anchoredPosition.y;
+        initialPos = basePos;
 
-        for (int i = 0; i < rectTransform.childCount; i++)
+        foreach (Transform child in transform) 
         {
-            rtChildren[i] = rectTransform.GetChild(i) as RectTransform;
+            Destroy(child.gameObject);
         }
 
-        // Subtract the margin from both sides.
-        width = rectTransform.rect.width - (2 * horizontalMargin);
+        int selected = initialValue;
+        selectedValue = selected;
+        
+        int offset = values.Length + selected - values.Length / 2;
+        if (values.Length % 2 == 1) offset -= 1;
 
-        // Subtract the margin from the top and bottom.
-        height = rectTransform.rect.height - (2 * verticalMargin);
-
-        childWidth = rtChildren[0].rect.width;
-        childHeight = rtChildren[0].rect.height;
-
-        horizontal = !vertical;
-        if (vertical)
-            InitializeContentVertical();
-        else
-            InitializeContentHorizontal();
-    }
-
-    /// <summary>
-    /// Initializes the scroll content if the scroll view is oriented horizontally.
-    /// </summary>
-    private void InitializeContentHorizontal()
-    {
-        float originX = 0 - (width * 0.5f);
-        float posOffset = childWidth * 0.5f;
-        for (int i = 0; i < rtChildren.Length; i++)
+        for (int i = 0; i < values.Length; i++)
         {
-            Vector2 childPos = rtChildren[i].localPosition;
-            childPos.x = originX + posOffset + i * (childWidth + itemSpacing);
-            rtChildren[i].localPosition = childPos;
+            var newGO = Instantiate(scrollItemPrefab, transform);
+            newGO.transform.localPosition = new Vector2(0.0f, -(i + 1) * itemHeight);
+            newGO.GetComponentInChildren<Text>().text = values[(i+offset)%values.Length];
         }
     }
 
-    /// <summary>
-    /// Initializes the scroll content if the scroll view is oriented vertically.
-    /// </summary>
-    private void InitializeContentVertical()
+    void Update()
     {
-        float originY = 0 - (height * 0.5f);
-        float posOffset = childHeight * 0.5f;
-        for (int i = 0; i < rtChildren.Length; i++)
+        float posDiff = rt.anchoredPosition.y - basePos;
+        int que = 0;
+        while (posDiff > itemHeight)
         {
-            Vector2 childPos = rtChildren[i].localPosition;
-            childPos.y = originY + posOffset + i * (childHeight + itemSpacing);
-            rtChildren[i].localPosition = childPos;
+            que += 1;
+            posDiff -= itemHeight;
+            basePos = rt.anchoredPosition.y;
+            
+            var firstChild = transform.GetChild(0);
+            var lastChild = transform.GetChild(values.Length-1);
+            var lastChildPos = lastChild.localPosition;
+
+            lastChildPos += new Vector3(0.0f, -itemHeight, 0.0f);
+            firstChild.localPosition = lastChildPos;
+            firstChild.SetAsLastSibling();
+        }
+        while (posDiff < -itemHeight)
+        {
+            que -= 1;
+            posDiff += itemHeight;
+            basePos = rt.anchoredPosition.y;
+            
+            var firstChild = transform.GetChild(0);
+            var lastChild = transform.GetChild(values.Length-1);
+            var firstChildPos = firstChild.localPosition;
+
+            firstChildPos += new Vector3(0.0f, itemHeight, 0.0f);
+            lastChild.localPosition = firstChildPos;
+            lastChild.SetAsFirstSibling();
+        }
+
+        int selectedIndex = values.Length/2;
+        if (values.Length%2==0) selectedIndex -= 1;
+        for (int i = 0; i < values.Length; i++)
+        {
+            var text = transform.GetChild(i).GetComponentInChildren<Text>();
+            if (text)
+            {
+                if (selectedIndex == i)
+                {
+                    selectedValue = (int.Parse(text.text));
+                    text.color = Color.cyan;
+                }
+                else
+                {
+                    text.color = Color.black;
+                }
+            }
         }
     }
+
+    public void ResetPosition()
+    {
+        float posDiff = initialPos - rt.anchoredPosition.y;
+        if (Mathf.Abs(posDiff) < itemHeight) return;
+
+        rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, rt.anchoredPosition.y + posDiff);
+        basePos = rt.anchoredPosition.y;
+        for (int i = 0; i < values.Length; i++)
+        {
+            var child = transform.GetChild(i);
+            child.localPosition = new Vector2(0.0f, -(i + 1) * itemHeight);
+        }
+    }
+
 }

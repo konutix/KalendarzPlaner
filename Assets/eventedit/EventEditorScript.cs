@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EventEditorScript : MonoBehaviour
 {   
     public InputField titleInputField;
 
-    public TimePicker timePicker;
+    // public TimePicker timePicker;
+    public ScrollTimePicker scrollTimePicker;
     public Text timeStartText;
     public Text timeEndText;
 
     public RepeatPicker repeatPicker;
     public Text repeatingText;
 
+    public ReminderPicker reminderPicker;
     public Transform remindersContainer;
     public GameObject reminderPrefab;
 
@@ -39,7 +42,7 @@ public class EventEditorScript : MonoBehaviour
     class CallendarEvent 
     {
         public string name;
-        public Color color = Color.blue;
+        public Color color = new Color(0.0f, 0.32f, 1.0f, 1.0f); // #0052FF blue
 
         public System.DateTime startTime;
         public System.DateTime endTime;
@@ -82,6 +85,21 @@ public class EventEditorScript : MonoBehaviour
     {
         timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
         timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
+    }
+
+    public void AllDayTicked(bool value)
+    {
+        currentEvent.isAllDay = !currentEvent.isAllDay;
+        if (currentEvent.isAllDay)
+        {
+            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy  ");
+            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy  ");
+        }
+        else
+        {
+            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
+            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
+        }
     }
 
     void SetRepeatingTextField()
@@ -136,12 +154,26 @@ public class EventEditorScript : MonoBehaviour
             var reminderScript = reminderGO.GetComponentInChildren<ReminderRemoveButton>();
             reminderScript.timespan = reminder;
         }
+
+        Canvas.ForceUpdateCanvases();
     }
-    int temporaryMinuteSelectLol = 20;
+    
     public void HandleAddReminderButton()
     {
-        currentEvent.reminders.Add(System.TimeSpan.FromMinutes(temporaryMinuteSelectLol));
-        temporaryMinuteSelectLol += 10;
+
+        reminderPicker.gameObject.SetActive(true);
+        reminderPicker.SetupFields();
+
+        // currentEvent.reminders.Add(System.TimeSpan.FromMinutes(temporaryMinuteSelectLol));
+        // temporaryMinuteSelectLol += 10;
+        // SetRemindersTextFields();
+    }
+
+    public void HandleConfirmAddReminderButton()
+    {
+        var timespan = reminderPicker.GetValues();
+        currentEvent.reminders.Add(timespan);
+        reminderPicker.gameObject.SetActive(false);
         SetRemindersTextFields();
     }
 
@@ -165,10 +197,14 @@ public class EventEditorScript : MonoBehaviour
         // if changes -> confirm popup
 
         // Exit
+        SceneManager.LoadScene("MainView"); //FIXME: not always back to main view?
     }
 
     public void HandleConfirmButton()
     {
+        SceneManager.LoadScene("MainView");
+
+        return;
         // Validate event
 
         if (titleInputField.text == "")
@@ -186,9 +222,7 @@ public class EventEditorScript : MonoBehaviour
         // Output an event
 
         currentEvent.name = titleInputField.text;
-
         currentEvent.notes = notesInputField.text;
-
 
         print(currentEvent.name);
         print(currentEvent.startTime);
@@ -200,30 +234,37 @@ public class EventEditorScript : MonoBehaviour
     public void HandleStartTimeButton()
     {
         isEditingStartTime = true;
-        timePicker.gameObject.SetActive(true);
-        timePicker.SetupFields("Ustaw datę rozpoczęcia", currentEvent.startTime);
+        // timePicker.gameObject.SetActive(true);
+        // timePicker.SetupFields("Ustaw datę rozpoczęcia", currentEvent.startTime);
+        scrollTimePicker.gameObject.SetActive(true);
+        scrollTimePicker.SetupContent(currentEvent.startTime);
     }
 
     public void HandleEndTimeButton()
     {
         isEditingStartTime = false;
-        timePicker.gameObject.SetActive(true);
-        timePicker.SetupFields("Ustaw datę zakończenia", currentEvent.endTime);
+        // timePicker.gameObject.SetActive(true);
+        // timePicker.SetupFields("Ustaw datę zakończenia", currentEvent.endTime);
+        scrollTimePicker.gameObject.SetActive(true);
+        scrollTimePicker.SetupContent(currentEvent.endTime);
     }
 
     public void HandleTimePickerConfirmButton()
     {
         if (isEditingStartTime)
         {
-            currentEvent.startTime = timePicker.GetValues();
+            // currentEvent.startTime = timePicker.GetValues();
+            currentEvent.startTime = scrollTimePicker.GetValues();
         }
         else
         {
-            currentEvent.endTime = timePicker.GetValues();
+            // currentEvent.endTime = timePicker.GetValues();
+            currentEvent.endTime = scrollTimePicker.GetValues();
         }
 
         SetTimeTextFields();
-        timePicker.gameObject.SetActive(false);
+        // timePicker.gameObject.SetActive(false);
+        scrollTimePicker.gameObject.SetActive(false);
     }
 
     public void HandleRepeatButton()
@@ -256,9 +297,8 @@ public class EventEditorScript : MonoBehaviour
         peoplePicker.SetActive(!peoplePicker.activeSelf);
     }
 
-    public GameObject betterTimePicker;
     public void debuggg()
     {
-        betterTimePicker.SetActive(!betterTimePicker.activeSelf);
+        
     }
 }

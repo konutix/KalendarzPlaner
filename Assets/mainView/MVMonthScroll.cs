@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class MVMonthScroll: MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
+    public GameObject addPanel;
+
     public GameObject MonthButton;
 
     public MonthContenerScript MonthContainer;
@@ -55,5 +58,25 @@ public class MVMonthScroll: MonoBehaviour, IBeginDragHandler, IEndDragHandler
         dragging = false;
 
         MonthContainer.SetNewMonth();
+    }
+
+    public void GoToSearch()
+    {
+        SceneManager.LoadScene("Search");
+    }
+
+    public void GoToAddGroupEvent()
+    {
+        SceneManager.LoadScene("ST_TeamEventAdd");
+    }
+
+    public void GoToAddEvent()
+    {
+        SceneManager.LoadScene("eventedit");
+    }
+
+    public void ShowHideAdd()
+    {
+        addPanel.SetActive(!addPanel.active);
     }
 }

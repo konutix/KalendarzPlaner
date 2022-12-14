@@ -5,20 +5,27 @@ using UnityEngine.UI;
 
 public class RepeatPicker : MonoBehaviour
 {
-    public InputField amountField;
+    public TimeInfiniteScroll amountScroll;
+    InfiniteScrollContent amountContent;
+
     public Dropdown dropdown;
+
+    void Awake()
+    {
+        amountContent = amountScroll.scrollContent;
+    }
 
     public void SetupFields(EventEditorScript.Repeating repeating)
     {
         dropdown.value = (int)repeating.type;
-        amountField.text = "" + repeating.amount;
+        amountContent.Setup(repeating.amount);
     }
 
     public EventEditorScript.Repeating GetValues()
     {
         EventEditorScript.Repeating r = new EventEditorScript.Repeating();
         r.type = (EventEditorScript.RepeatingType)dropdown.value;
-        r.amount = int.Parse(amountField.text);
+        r.amount = amountContent.selectedValue;
         return r;
     }
 }

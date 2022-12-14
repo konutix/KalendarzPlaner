@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DayChangeLenght : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class DayChangeLenght : MonoBehaviour, IDragHandler
 {
 
     private RectTransform rectTransform;
@@ -18,11 +18,6 @@ public class DayChangeLenght : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
         Vector2 drag = new Vector2(0, eventData.delta.y / canvas.scaleFactor);
@@ -31,11 +26,6 @@ public class DayChangeLenght : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         ScrollView.anchoredPosition += drag/2;
         Notepad.sizeDelta += drag;
         Notepad.anchoredPosition += drag / 2;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        
     }
 
     // Start is called before the first frame update
