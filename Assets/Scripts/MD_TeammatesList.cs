@@ -8,9 +8,11 @@ public class MD_TeammatesList : MonoBehaviour
     [SerializeField] public GameObject root;
     [SerializeField] public GameObject personTemplate;
     [SerializeField] public GameObject friends;
+    [SerializeField] public GameObject months;
 
     int bid = 0;
     private List<GameObject> created = new List<GameObject>();
+    int ilu_ludzi = 0;
 
     public void ShowFriens()
     {
@@ -28,10 +30,37 @@ public class MD_TeammatesList : MonoBehaviour
         bid++;
         created.Add(go);
         friends.SetActive(false);
+        ilu_ludzi++;
     }
 
     public void DeletePerson(int id)
     {
         Destroy(created[id]);
+    }
+
+    public void UnGrayDays()
+    {
+        ilu_ludzi--;
+        GameObject month = months.transform.GetChild(2).gameObject;
+
+        if(ilu_ludzi == 0)
+        {
+            for(int i=0; i<29; i++)
+            {
+                month.transform.GetChild(i).gameObject.GetComponent<UnityEngine.UI.Button>().interactable = true;
+            }
+        }
+        else
+        {
+            System.Random rnd = new System.Random();
+
+            for(int i=0; i<29; i++)
+            {
+                if(rnd.Next() % 100 < 25)
+                {
+                    month.transform.GetChild(i).gameObject.GetComponent<UnityEngine.UI.Button>().interactable = true;
+                }
+            }
+        }
     }
 }
