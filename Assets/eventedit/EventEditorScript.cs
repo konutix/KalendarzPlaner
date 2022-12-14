@@ -83,13 +83,6 @@ public class EventEditorScript : MonoBehaviour
 
     void SetTimeTextFields()
     {
-        timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
-        timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
-    }
-
-    public void AllDayTicked(bool value)
-    {
-        currentEvent.isAllDay = !currentEvent.isAllDay;
         if (currentEvent.isAllDay)
         {
             timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy  ");
@@ -100,6 +93,12 @@ public class EventEditorScript : MonoBehaviour
             timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
             timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
         }
+    }
+
+    public void AllDayTicked(bool value)
+    {
+        currentEvent.isAllDay = !currentEvent.isAllDay;
+        SetTimeTextFields();
     }
 
     void SetRepeatingTextField()

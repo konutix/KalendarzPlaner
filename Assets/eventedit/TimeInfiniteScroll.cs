@@ -31,14 +31,12 @@ public class TimeInfiniteScroll : MonoBehaviour, IEndDragHandler//, IBeginDragHa
                 scrollContent.ResetPosition();
             }
         }
-        else
-        {
-            asd = true;
-        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        asd = true;
         scrollContent.ResetPosition();
+        // scrollRect.StopMovement();
     }
 }
