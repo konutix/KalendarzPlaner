@@ -11,6 +11,9 @@ public class DayContentManager : MonoBehaviour
     private IDayMovable rectTransformEvent;
     private Vector2 screenRes;
 
+    public DayPanelCheck upPanel;
+    public DayPanelCheck downPanel;
+
     private void Awake()
     {
         onDragBeginEvent = new UnityAction<object>(OnDragBeginEvent);
@@ -52,12 +55,12 @@ public class DayContentManager : MonoBehaviour
         if (IsHeld)
         {
             Vector2 mousePos = (Vector2)Input.mousePosition - screenRes;
-            if (mousePos.y < 730 && mousePos.y > 630)
+            if (upPanel.isMouseOver)
             {
                 rectTransform.anchoredPosition -= new Vector2(0, 1);
                 rectTransformEvent.Move(new Vector2(0, 1));
             }
-            if (mousePos.y < -90 && mousePos.y > -190)
+            if (downPanel.isMouseOver)
             {
                 rectTransform.anchoredPosition += new Vector2(0, 1);
                 rectTransformEvent.Move(new Vector2(0, -1));

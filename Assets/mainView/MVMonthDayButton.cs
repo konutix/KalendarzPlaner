@@ -7,6 +7,14 @@ public class MVMonthDayButton : MonoBehaviour
 {
     public void ShowDay()
     {
-        SceneManager.LoadScene("DayView");
+        if(SceneManager.GetActiveScene().name == "MainView")
+        {
+            SceneManager.LoadScene("DayView");
+        }
+
+        if (SceneManager.GetActiveScene().name == "ST_TeamEventAdd")
+        {
+            SceneManager.LoadScene("DayView2");
+        }
     }
 }
