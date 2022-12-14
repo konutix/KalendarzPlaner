@@ -26,7 +26,8 @@ public class EventEditorScript : MonoBehaviour
     public InputField notesInputField;
 
     public GameObject peoplePicker;
-
+    public GameObject peopleList;
+    public GameObject personPrefab;
 
     public enum RepeatingType 
     {
@@ -293,7 +294,42 @@ public class EventEditorScript : MonoBehaviour
 
     public void HandleInviteButton()
     {
-        peoplePicker.SetActive(!peoplePicker.activeSelf);
+        peoplePicker.SetActive(true);
+    }
+
+    int previous = 0;
+    public void HandleInviteConfirmButton()
+    {
+        int counter = 0;
+        foreach (Transform child in peoplePicker.transform)
+        {
+            Toggle toggle = child.gameObject.GetComponent<Toggle>();
+            if (toggle && toggle.isOn)
+            {
+                counter += 1;
+            }
+        }
+
+        foreach (Transform child in peopleList.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        
+        previous = counter;
+        
+        for (int i = 0; i < counter; i++)
+        {
+            var personGO = Instantiate(personPrefab, peopleList.transform);
+            var text = personGO.GetComponentInChildren<Text>();
+            if (text)
+            {
+                text.text += " " + (i+1) + "   ";
+            }
+        }
+
+        Canvas.ForceUpdateCanvases();
+
+        peoplePicker.SetActive(false);
     }
 
     public void debuggg()
