@@ -42,7 +42,7 @@ public class MainViewDays : MonoBehaviour
         GameObject day;
 
         int dayIterator = 0;
-
+        System.Random rnd = new System.Random();
         for (int w = 0; w < 6; w++)
         {
             for (int d = 0; d < 7; d++)
@@ -61,6 +61,20 @@ public class MainViewDays : MonoBehaviour
                     if(dateCurrent.Year == dateNow.Year && dateCurrent.Month == dateNow.Month && dateNow.Day == dayIterator)
                     {
                         day.GetComponent<Image>().color = new Color32(120, 142, 225, 255);
+                    }
+
+                    var image = day.GetComponentInChildren<RawImage>();
+                    if (image)
+                    {
+                        if(rnd.Next() % 100 < 10)
+                        {
+                            Color[] cols = {Color.red, Color.blue, Color.green, Color.yellow};
+                            image.color = cols[rnd.Next()%cols.Length];
+                        }
+                        else
+                        {
+                            image.color = new Color(0,0,0,0);
+                        }
                     }
                 }
             }
