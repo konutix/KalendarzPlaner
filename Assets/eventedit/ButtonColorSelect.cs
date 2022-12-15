@@ -16,6 +16,6 @@ public class ButtonColorSelect : MonoBehaviour
 
     public void OnClick()
     {
-        eventEditorScript.HandleColorSelectButton(rawImage.color);
+        eventEditorScript.HandleColorSelectButton(GetComponent<ColorToggle>().GetOurColor());
     }
 }

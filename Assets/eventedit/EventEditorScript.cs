@@ -28,18 +28,19 @@ public class EventEditorScript : MonoBehaviour
     public GameObject peoplePicker;
     public GameObject peopleList;
     public GameObject personPrefab;
-
+    /*
     public enum RepeatingType 
     {
         None, Daily, Weekly, Monthly, Yearly
-    }
+    }*/
 
-    public class Repeating
+    /*public class Repeating
     {
         public RepeatingType type = RepeatingType.None;
         public int amount = 1;
-    }
+    }*/
 
+    /*
     class CallendarEvent 
     {
         public string name;
@@ -56,21 +57,24 @@ public class EventEditorScript : MonoBehaviour
         public string notes; //todo: handle checkboxes?
 
         // public List<invited people> invitedPeople;
-    }
+    }*/
 
-    CallendarEvent currentEvent;
+    Event currentEvent;
     bool isEditingStartTime = true;
 
     void Start()
     {
         // Load event if edit, create new if new
-        currentEvent = new CallendarEvent();
-        currentEvent.startTime = System.DateTime.Now;
+        currentEvent.startDate = System.DateTime.Now;
         System.TimeSpan oneHour = System.TimeSpan.FromHours(1);
-        currentEvent.endTime = currentEvent.startTime.Add(oneHour);
+        currentEvent.endDate = currentEvent.startDate.Add(oneHour);
         SetTimeTextFields();
 
-        currentEvent.repeating = new Repeating();
+        Repeating repeat;
+        repeat.amount = 1;
+        repeat.type = RepeatingType.None;
+
+        currentEvent.repeating = repeat;
         SetRepeatingTextField();
 
         System.TimeSpan tenMinutes = System.TimeSpan.FromMinutes(10);
@@ -78,7 +82,8 @@ public class EventEditorScript : MonoBehaviour
         currentEvent.reminders.Add(tenMinutes);
         SetRemindersTextFields();
 
-        colorImage.color = currentEvent.color;
+        currentEvent.eventColor = OurColors.blue;
+        colorImage.color = OurColors.GetColor(currentEvent.eventColor);
 
     }
 
@@ -86,13 +91,13 @@ public class EventEditorScript : MonoBehaviour
     {
         if (currentEvent.isAllDay)
         {
-            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy  ");
-            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy  ");
+            timeStartText.text = currentEvent.startDate.ToString("dd.MM.yy  ");
+            timeEndText.text = currentEvent.endDate.ToString("dd.MM.yy  ");
         }
         else
         {
-            timeStartText.text = currentEvent.startTime.ToString("dd.MM.yy      HH:mm  ");
-            timeEndText.text = currentEvent.endTime.ToString("dd.MM.yy      HH:mm  ");
+            timeStartText.text = currentEvent.startDate.ToString("dd.MM.yy      HH:mm  ");
+            timeEndText.text = currentEvent.endDate.ToString("dd.MM.yy      HH:mm  ");
         }
     }
 
@@ -202,9 +207,6 @@ public class EventEditorScript : MonoBehaviour
 
     public void HandleConfirmButton()
     {
-        SceneManager.LoadScene("MainView");
-
-        return;
         // Validate event
 
         if (titleInputField.text == "")
@@ -213,7 +215,7 @@ public class EventEditorScript : MonoBehaviour
             return;
         }
 
-        if (currentEvent.endTime < currentEvent.startTime)
+        if (currentEvent.endDate < currentEvent.startDate)
         {
             print("invalid date");
             return;
@@ -221,14 +223,17 @@ public class EventEditorScript : MonoBehaviour
 
         // Output an event
 
-        currentEvent.name = titleInputField.text;
+        currentEvent.eventName = titleInputField.text;
         currentEvent.notes = notesInputField.text;
 
-        print(currentEvent.name);
-        print(currentEvent.startTime);
-        print(currentEvent.endTime);
-        print(currentEvent.color);
+        print(currentEvent.eventName);
+        print(currentEvent.startDate);
+        print(currentEvent.endDate);
+        print(currentEvent.eventColor);
         print(currentEvent.notes);
+        SavedEvents.events.Add(currentEvent);
+        SceneManager.LoadScene("MainView");
+        return;
     }
 
     public void HandleStartTimeButton()
@@ -237,7 +242,7 @@ public class EventEditorScript : MonoBehaviour
         // timePicker.gameObject.SetActive(true);
         // timePicker.SetupFields("Ustaw datę rozpoczęcia", currentEvent.startTime);
         scrollTimePicker.gameObject.SetActive(true);
-        scrollTimePicker.SetupContent(currentEvent.startTime);
+        scrollTimePicker.SetupContent(currentEvent.startDate);
     }
 
     public void HandleEndTimeButton()
@@ -246,7 +251,7 @@ public class EventEditorScript : MonoBehaviour
         // timePicker.gameObject.SetActive(true);
         // timePicker.SetupFields("Ustaw datę zakończenia", currentEvent.endTime);
         scrollTimePicker.gameObject.SetActive(true);
-        scrollTimePicker.SetupContent(currentEvent.endTime);
+        scrollTimePicker.SetupContent(currentEvent.endDate);
     }
 
     public void HandleTimePickerConfirmButton()
@@ -254,12 +259,12 @@ public class EventEditorScript : MonoBehaviour
         if (isEditingStartTime)
         {
             // currentEvent.startTime = timePicker.GetValues();
-            currentEvent.startTime = scrollTimePicker.GetValues();
+            currentEvent.startDate = scrollTimePicker.GetValues();
         }
         else
         {
             // currentEvent.endTime = timePicker.GetValues();
-            currentEvent.endTime = scrollTimePicker.GetValues();
+            currentEvent.endDate = scrollTimePicker.GetValues();
         }
 
         SetTimeTextFields();
@@ -285,11 +290,11 @@ public class EventEditorScript : MonoBehaviour
         colorPicker.SetActive(true);
     }
 
-    public void HandleColorSelectButton(Color selectedColor)
+    public void HandleColorSelectButton(OurColors selectedColor)
     {
         colorPicker.SetActive(false);
-        currentEvent.color = selectedColor;
-        colorImage.color = currentEvent.color;
+        currentEvent.eventColor = selectedColor;
+        colorImage.color = OurColors.GetColor(currentEvent.eventColor);
     }
 
     public void HandleInviteButton()

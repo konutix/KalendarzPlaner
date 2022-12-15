@@ -23,38 +23,35 @@ public class ColorToggle : MonoBehaviour
     
     public void ChangeColorFilter()
     {
-        switch(color)
+        searchResults.ChangeColorFilter(GetOurColor());
+    }
+
+    public OurColors GetOurColor()
+    {
+        switch (color)
         {
             case OurColorsEnum.red:
-            searchResults.ChangeColorFilter(OurColors.red);
-                break;
+                return OurColors.red;
             case OurColorsEnum.green:
-                searchResults.ChangeColorFilter(OurColors.green);
-                break;
+                return OurColors.green;
             case OurColorsEnum.purple:
-                searchResults.ChangeColorFilter(OurColors.purple);
-                break;
+                return OurColors.purple;
             case OurColorsEnum.blue:
-                searchResults.ChangeColorFilter(OurColors.blue);
-                break;
+                return OurColors.blue;
             case OurColorsEnum.orange:
-                searchResults.ChangeColorFilter(OurColors.orange);
-                break;
+                return OurColors.orange;
             case OurColorsEnum.yellow:
-                searchResults.ChangeColorFilter(OurColors.yellow);
-                break;
+                return OurColors.yellow;
             case OurColorsEnum.lightblue:
-                searchResults.ChangeColorFilter(OurColors.lightblue);
-                break;
+                return OurColors.lightblue;
             case OurColorsEnum.pink:
-                searchResults.ChangeColorFilter(OurColors.pink);
-                break;
+                return OurColors.pink ;
             case OurColorsEnum.white:
-                searchResults.ChangeColorFilter(OurColors.white);
-                break;
+                return OurColors.white;
             case OurColorsEnum.black:
-                searchResults.ChangeColorFilter(OurColors.black);
-                break;
+                return OurColors.black;
+            default:
+                return OurColors.blue;
         }
     }
 }

@@ -15,7 +15,7 @@ public class RepeatPicker : MonoBehaviour
         amountContent = amountScroll.scrollContent;
     }
 
-    public void SetupFields(EventEditorScript.Repeating repeating)
+    public void SetupFields(Repeating repeating)
     {
         dropdown.value = (int)repeating.type;
         amountContent.Setup(repeating.amount);
@@ -35,10 +35,10 @@ public class RepeatPicker : MonoBehaviour
         }
     }
 
-    public EventEditorScript.Repeating GetValues()
+    public Repeating GetValues()
     {
-        EventEditorScript.Repeating r = new EventEditorScript.Repeating();
-        r.type = (EventEditorScript.RepeatingType)dropdown.value;
+        Repeating r;
+        r.type = (RepeatingType)dropdown.value;
         r.amount = amountContent.selectedValue;
         return r;
     }

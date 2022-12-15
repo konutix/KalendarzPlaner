@@ -31,43 +31,54 @@ public class SearchResults : MonoBehaviour
     void Start()
     {
         sortEnum = SortEnum.StartDateInc;
-        events = new List<Event>();
         searchedEvents = new List<Event>();
         filteredEvents = new List<Event>();
         results = new List<SearchResult>();
+        /*
+        events = new List<Event>();
         for(int i = 0; i < 10; i++)
         {
             Event e = new Event();
             e.eventName = "Event" + i;
-            e.startDate = System.DateTime.Now;
+            e.startDate = DateTime.Now;
             e.startDate = e.startDate.AddDays(5-i);
-            e.endDate = System.DateTime.Now;
+            e.endDate = DateTime.Now;
             e.endDate = e.endDate.AddDays(5 - i);
             e.endDate = e.endDate.AddHours(i);
             e.eventColor = OurColors.green;
             events.Add(e);
         }
-
-        events[0].eventName = "Urodziny Dziadka Zbyszka";
-        events[0].eventColor = OurColors.red;
-        events[1].eventName = "Urodziny Dziadka Marka";
-        events[1].eventColor = OurColors.green;
-        events[2].eventName = "Piwo";
-        events[2].eventColor = OurColors.blue;
-        events[3].eventName = "Nocne jedzenie";
-        events[3].eventColor = OurColors.lightblue;
-        events[4].eventName = "Ananas";
-        events[4].eventColor = OurColors.yellow;
-        events[5].eventName = "Wydarzenie specjalne";
-        events[5].eventColor = OurColors.orange;
-        events[6].eventName = "Ua Ua";
-        events[6].eventColor = OurColors.purple;
-        events[7].eventName = "Coœ tu jest napisane";
-        events[7].eventColor = OurColors.white;
-        events[8].eventName = "jfjdjopasfj";
-        events[8].eventColor = OurColors.pink;
-        events[9].eventName = "Wydarzenie10";
-        events[9].eventColor = OurColors.black;
+        Event tempEvent = events[0];
+        tempEvent.eventName = "Urodziny Dziadka Zbyszka";
+        tempEvent.eventColor = OurColors.red;
+        tempEvent = events[1];
+        tempEvent.eventName = "Urodziny Dziadka Marka";
+        tempEvent.eventColor = OurColors.green;
+        tempEvent = events[2];
+        tempEvent.eventName = "Piwo";
+        tempEvent.eventColor = OurColors.blue;
+        tempEvent = events[3];
+        tempEvent.eventName = "Nocne jedzenie";
+        tempEvent.eventColor = OurColors.lightblue;
+        tempEvent = events[4];
+        tempEvent.eventName = "Ananas";
+        tempEvent.eventColor = OurColors.yellow;
+        tempEvent = events[5];
+        tempEvent.eventName = "Wydarzenie specjalne";
+        tempEvent.eventColor = OurColors.orange;
+        tempEvent = events[6];
+        tempEvent.eventName = "Ua Ua";
+        tempEvent.eventColor = OurColors.purple;
+        tempEvent = events[7];
+        tempEvent.eventName = "Coœ tu jest napisane";
+        tempEvent.eventColor = OurColors.white;
+        tempEvent = events[8];
+        tempEvent.eventName = "jfjdjopasfj";
+        tempEvent.eventColor = OurColors.pink;
+        tempEvent = events[9];
+        tempEvent.eventName = "Wydarzenie10";
+        tempEvent.eventColor = OurColors.black;
+        */
         checkedColors = new Dictionary<OurColors,bool>();
         checkedColors.Add(OurColors.blue, true);
         checkedColors.Add(OurColors.red, true);
@@ -79,6 +90,7 @@ public class SearchResults : MonoBehaviour
         checkedColors.Add(OurColors.pink, true);
         checkedColors.Add(OurColors.white, true);
         checkedColors.Add(OurColors.black, true);
+        events = SavedEvents.events;
         showOlderEvents = true;
         Search("");
     }
@@ -183,37 +195,11 @@ public class SearchResults : MonoBehaviour
         SpawnEvents();
     }
 
-    static int CompareBase(Event x, Event y, int equation)
-    {
-        if (x == null)
-        {
-            if (y == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-        else
-        {
-            if (y == null)
-            {
-                return 1;
-            }
-            else
-            {
-                return equation;
-            }
-        }
-    }
-
     class IncStartDateComparer : IComparer<Event>
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, x.startDate.CompareTo(y.startDate));
+            return x.startDate.CompareTo(y.startDate);
         }
     }
 
@@ -221,7 +207,7 @@ public class SearchResults : MonoBehaviour
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, -1 * x.startDate.CompareTo(y.startDate));
+            return -1 * x.startDate.CompareTo(y.startDate);
         }
     }
 
@@ -229,7 +215,7 @@ public class SearchResults : MonoBehaviour
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, x.endDate.CompareTo(y.endDate));
+            return x.endDate.CompareTo(y.endDate);
         }
     }
 
@@ -237,7 +223,7 @@ public class SearchResults : MonoBehaviour
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, -1 * x.endDate.CompareTo(y.endDate));
+            return -1 * x.endDate.CompareTo(y.endDate);
         }
     }
 
@@ -245,7 +231,7 @@ public class SearchResults : MonoBehaviour
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, x.eventName.CompareTo(y.eventName));
+            return x.eventName.CompareTo(y.eventName);
         }
     }
 
@@ -253,7 +239,7 @@ public class SearchResults : MonoBehaviour
     {
         public int Compare(Event x, Event y)
         {
-            return CompareBase(x, y, -1 * x.eventName.CompareTo(y.eventName));
+            return -1 * x.eventName.CompareTo(y.eventName);
         }
     }
 }
