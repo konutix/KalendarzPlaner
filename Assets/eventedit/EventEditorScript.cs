@@ -65,25 +65,37 @@ public class EventEditorScript : MonoBehaviour
     void Start()
     {
         // Load event if edit, create new if new
-        currentEvent.startDate = System.DateTime.Now;
-        System.TimeSpan oneHour = System.TimeSpan.FromHours(1);
-        currentEvent.endDate = currentEvent.startDate.Add(oneHour);
-        SetTimeTextFields();
+        if(SavedEvents.lastScene == "MainView")
+        {
+            currentEvent = new Event();
+            currentEvent.startDate = System.DateTime.Now;
+            System.TimeSpan oneHour = System.TimeSpan.FromHours(1);
+            currentEvent.endDate = currentEvent.startDate.Add(oneHour);
+            SetTimeTextFields();
 
-        Repeating repeat;
-        repeat.amount = 1;
-        repeat.type = RepeatingType.None;
+            Repeating repeat;
+            repeat.amount = 1;
+            repeat.type = RepeatingType.None;
 
-        currentEvent.repeating = repeat;
-        SetRepeatingTextField();
+            currentEvent.repeating = repeat;
+            SetRepeatingTextField();
 
-        System.TimeSpan tenMinutes = System.TimeSpan.FromMinutes(10);
-        currentEvent.reminders = new List<System.TimeSpan>();
-        currentEvent.reminders.Add(tenMinutes);
-        SetRemindersTextFields();
+            System.TimeSpan tenMinutes = System.TimeSpan.FromMinutes(10);
+            currentEvent.reminders = new List<System.TimeSpan>();
+            currentEvent.reminders.Add(tenMinutes);
+            SetRemindersTextFields();
 
-        currentEvent.eventColor = OurColors.blue;
-        colorImage.color = OurColors.GetColor(currentEvent.eventColor);
+            currentEvent.eventColor = OurColors.blue;
+            colorImage.color = OurColors.GetColor(currentEvent.eventColor);
+        }
+        else if(SavedEvents.lastScene == "DayView2")
+        {
+            currentEvent = SavedEvents.events[SavedEvents.currentlyEditedEvent];
+            SetTimeTextFields();
+            SetRepeatingTextField();
+            SetRemindersTextFields();
+            colorImage.color = OurColors.GetColor(currentEvent.eventColor);
+        }
 
     }
 
@@ -202,7 +214,11 @@ public class EventEditorScript : MonoBehaviour
         // if changes -> confirm popup
 
         // Exit
-        SceneManager.LoadScene("MainView"); //FIXME: not always back to main view?
+        if(SavedEvents.lastScene == "MainView")
+        {
+            SavedEvents.events.Remove(SavedEvents.events[SavedEvents.currentlyEditedEvent]);
+        }
+        SceneManager.LoadScene(SavedEvents.lastScene); //FIXME: not always back to main view?
     }
 
     public void HandleConfirmButton()
@@ -231,7 +247,15 @@ public class EventEditorScript : MonoBehaviour
         print(currentEvent.endDate);
         print(currentEvent.eventColor);
         print(currentEvent.notes);
-        SavedEvents.events.Add(currentEvent);
+        if (SavedEvents.lastScene == "MainView")
+        {
+            SavedEvents.events.Add(currentEvent);
+        }
+        else if(SavedEvents.lastScene == "ST_TeamEventAdd")
+        {
+            
+            SavedEvents.events[SavedEvents.currentlyEditedEvent] = currentEvent;
+        }
         SceneManager.LoadScene("MainView");
         return;
     }

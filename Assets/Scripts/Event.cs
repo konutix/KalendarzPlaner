@@ -31,4 +31,6 @@ public struct Event
 public static class SavedEvents
 {
     public static List<Event> events = new List<Event>();
+    public static int currentlyEditedEvent = -1;
+    public static string lastScene = "";
 }

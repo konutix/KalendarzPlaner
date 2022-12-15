@@ -4559,6 +4559,8 @@ MonoBehaviour:
   HoursDistance: 0
   upHandle: {fileID: 1896159278}
   downHandle: {fileID: 345786338}
+  sceneChange: {fileID: 2002944188}
+  editable: 0
   textTime: {fileID: 1759219279}
 --- !u!1 &979691708
 GameObject:
@@ -6872,6 +6874,8 @@ MonoBehaviour:
   HoursDistance: 0
   upHandle: {fileID: 1365198104}
   downHandle: {fileID: 1339159065}
+  sceneChange: {fileID: 2002944188}
+  editable: 0
   textTime: {fileID: 1266919172}
 --- !u!114 &1339396045
 MonoBehaviour:
