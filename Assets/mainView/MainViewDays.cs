@@ -22,6 +22,8 @@ public class MainViewDays : MonoBehaviour
 
     public void SetupMonth()
     {
+        System.DateTime dateNow = System.DateTime.UtcNow.ToLocalTime();
+
         System.DateTime dateFirst = new System.DateTime(dateCurrent.Year, dateCurrent.Month, 1, 1, 1, 1, 1, dateCurrent.Kind);
 
         int firstDay = 0;
@@ -55,6 +57,11 @@ public class MainViewDays : MonoBehaviour
                     day.GetComponent<MVMonthDayButton>().date = dateCurrent.AddDays(dayIterator-1);
                     day.gameObject.GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(xBegin + d * daySize + d * xPadding, -yBegin - w * daySize - w * yPadding);
+
+                    if(dateCurrent.Year == dateNow.Year && dateCurrent.Month == dateNow.Month && dateNow.Day == dayIterator)
+                    {
+                        day.GetComponent<Image>().color = new Color32(120, 142, 225, 255);
+                    }
                 }
             }
         }
