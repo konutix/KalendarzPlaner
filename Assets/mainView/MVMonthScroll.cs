@@ -68,11 +68,13 @@ public class MVMonthScroll: MonoBehaviour, IBeginDragHandler, IEndDragHandler
     public void GoToAddGroupEvent()
     {
         SceneManager.LoadScene("ST_TeamEventAdd");
+        SavedEvents.lastScene = SceneManager.GetActiveScene().name;
     }
 
     public void GoToAddEvent()
     {
         SceneManager.LoadScene("eventedit");
+        SavedEvents.lastScene = SceneManager.GetActiveScene().name;
     }
 
     public void ShowHideAdd()

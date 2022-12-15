@@ -54,6 +54,7 @@ public class MainViewDays : MonoBehaviour
                     day = Instantiate(dayPrefab, transform);
                     dayIterator++;
                     day.GetComponentInChildren<Text>().text = dayIterator.ToString();
+                    day.GetComponent<MVMonthDayButton>().date = dateCurrent.AddDays(dayIterator-1);
                     day.gameObject.GetComponent<RectTransform>().anchoredPosition =
                     new Vector2(xBegin + d * daySize + d * xPadding, -yBegin - w * daySize - w * yPadding);
 

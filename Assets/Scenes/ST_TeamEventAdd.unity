@@ -732,9 +732,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 417960337}
-        m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
-        m_MethodName: SceneChange
+      - m_Target: {fileID: 610353866}
+        m_TargetAssemblyTypeName: DaySceneChange, Assembly-CSharp
+        m_MethodName: GoBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1077,7 +1077,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92830b1e19cd5e2488225e5f85d7a682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  months: {fileID: 1204971876}
 --- !u!114 &562566155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,8 +1269,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 610353866}
         m_TargetAssemblyTypeName: DaySceneChange, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
+        m_MethodName: GoBack
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2520,7 +2519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92830b1e19cd5e2488225e5f85d7a682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  months: {fileID: 1204971876}
 --- !u!114 &1116572902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4846,7 +4844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92830b1e19cd5e2488225e5f85d7a682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  months: {fileID: 1204971876}
 --- !u!114 &1802643770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10447,7 +10444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92830b1e19cd5e2488225e5f85d7a682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  months: {fileID: 1204971876}
 --- !u!1 &2914348049490051856
 GameObject:
   m_ObjectHideFlags: 0
