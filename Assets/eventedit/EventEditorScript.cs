@@ -214,10 +214,6 @@ public class EventEditorScript : MonoBehaviour
         // if changes -> confirm popup
 
         // Exit
-        if(SavedEvents.lastScene == "MainView")
-        {
-            SavedEvents.events.Remove(SavedEvents.events[SavedEvents.currentlyEditedEvent]);
-        }
         SceneManager.LoadScene(SavedEvents.lastScene); //FIXME: not always back to main view?
     }
 
@@ -241,19 +237,13 @@ public class EventEditorScript : MonoBehaviour
 
         currentEvent.eventName = titleInputField.text;
         currentEvent.notes = notesInputField.text;
-
-        print(currentEvent.eventName);
-        print(currentEvent.startDate);
-        print(currentEvent.endDate);
-        print(currentEvent.eventColor);
-        print(currentEvent.notes);
+        print(SavedEvents.lastScene);
         if (SavedEvents.lastScene == "MainView")
         {
             SavedEvents.events.Add(currentEvent);
         }
-        else if(SavedEvents.lastScene == "ST_TeamEventAdd")
+        else if(SavedEvents.lastScene == "DayView2")
         {
-            
             SavedEvents.events[SavedEvents.currentlyEditedEvent] = currentEvent;
         }
         SceneManager.LoadScene("MainView");
