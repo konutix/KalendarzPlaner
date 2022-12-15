@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FilterPanel : MonoBehaviour
 {
 
     RectTransform rect;
+    [SerializeField] Button button;
+    [SerializeField] RectTransform appRect;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +25,16 @@ public class FilterPanel : MonoBehaviour
                 Input.mousePosition.y < rect.position.y + rect.rect.yMin ||
                 Input.mousePosition.y > rect.position.y + rect.rect.yMax)
             {
-                if(Input.GetMouseButton(0))
+                if(Input.mousePosition.x > appRect.position.x + appRect.rect.xMin &&
+                   Input.mousePosition.x < appRect.position.x + appRect.rect.xMax &&
+                   Input.mousePosition.y > appRect.position.y + appRect.rect.yMin &&
+                   Input.mousePosition.y < appRect.position.y + appRect.rect.yMax)
                 {
-                    gameObject.SetActive(false);
+                    if (Input.GetMouseButton(0))
+                    {
+                        gameObject.SetActive(false);
+                        button.enabled = true;
+                    }
                 }
             }
         }
@@ -32,6 +42,7 @@ public class FilterPanel : MonoBehaviour
 
     public void ToggleHide()
     {
-        gameObject.SetActive(!gameObject.activeSelf);
+        gameObject.SetActive(true);
+        button.enabled = false;
     }
 }

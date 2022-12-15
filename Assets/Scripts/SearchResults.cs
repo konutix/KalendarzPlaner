@@ -100,7 +100,7 @@ public class SearchResults : MonoBehaviour
         searchedEvents.Clear();
         foreach(Event e in events)
         {
-            if (((search.Length > 0 && e.eventName.Contains(search)) || search.Length == 0))
+            if (((search.Length > 0 && e.eventName.ToLower().Contains(search.ToLower())) || search.Length == 0))
             {
                 searchedEvents.Add(e);
             }

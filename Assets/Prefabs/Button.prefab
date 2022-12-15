@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7493971415192017443}
   - component: {fileID: 3716233951372406291}
   - component: {fileID: 5030942351035488114}
-  - component: {fileID: 5082321314206149666}
+  - component: {fileID: 7222349658647476428}
   m_Layer: 5
   m_Name: Name
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Button
---- !u!114 &5082321314206149666
+--- !u!114 &7222349658647476428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,12 +89,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 996460143862918936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Script: {fileID: 11500000, guid: ed4bf3ee5808ac7458bc50af4b590d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
 --- !u!1 &5435676959037375039
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +240,7 @@ GameObject:
   - component: {fileID: 1196306886238252128}
   - component: {fileID: 6304834719914434529}
   - component: {fileID: 4125611945561572304}
-  - component: {fileID: 6639149810218278129}
+  - component: {fileID: 6967270309654857782}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -312,7 +309,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.51
   m_Text: New Text
---- !u!114 &6639149810218278129
+--- !u!114 &6967270309654857782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,9 +318,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6952540492374352983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Script: {fileID: 11500000, guid: ed4bf3ee5808ac7458bc50af4b590d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 3, y: -3}
-  m_UseGraphicAlpha: 1
